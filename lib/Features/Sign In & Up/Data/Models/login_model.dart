@@ -9,21 +9,12 @@ class LoginModel extends Login {
   });
 
   factory LoginModel.fromJson(Map<String, dynamic> json) {
-    if (json == null) {
-      return LoginModel(status: false, data: null, message: "Invalid JSON data");
-    }
-
-    if (json['status'] is bool && json['data'] is Map<String, dynamic> && json['message'] is String) {
       return LoginModel(
-        status: json['status'],
-        data: LoginDataModel.fromJson(json['data']),
-        message: json['message'],
+        status: json['status'] ?? false,
+        data: json['data'] != null ? LoginDataModel.fromJson(json['data']) : null,
+        message: json['message'] ?? '',
       );
 
-    } else {
-      return LoginModel(status: false, data: null, message: "Invalid JSON structure");
     }
-
   }
 
-}

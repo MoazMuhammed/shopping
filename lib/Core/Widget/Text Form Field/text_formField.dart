@@ -49,43 +49,55 @@ class AppTextField extends StatefulWidget {
 class _AppTextFieldState extends State<AppTextField> {
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      validator: widget.validators,
-      obscureText: widget.obscureText,
-      controller: widget.controller,
-      enabled: widget.enable,
-      keyboardType: widget.textInputType,
-      textInputAction: widget.textInputAction,
-      cursorColor: Theme.of(context).cardColor,
-      decoration: InputDecoration(
-        suffixIcon: Visibility(
-          visible: widget.isPassword,
-          child: InkWell(
-            onTap: () {
-              setState(() {
-                widget.obscureText = !widget.obscureText;
-              });
-            },
-            child: Icon(
-              widget.obscureText ? Icons.visibility_off : Icons.visibility,
-              color: Theme.of(context).brightness == Brightness.light ?Colors.black:Colors.white,
+    return Material(borderRadius: BorderRadius.circular(17.sp),
+      elevation: 10.0,
+      shadowColor: Colors.black38,
+      child: TextFormField(
+        validator: widget.validators,
+        obscureText: widget.obscureText,
+        controller: widget.controller,
+        enabled: widget.enable,
+        keyboardType: widget.textInputType,
+        textInputAction: widget.textInputAction,
+        cursorColor: Theme.of(context).cardColor,
+        decoration: InputDecoration(
+          suffixIcon: Visibility(
+            visible: widget.isPassword,
+            child: InkWell(
+              onTap: () {
+                setState(() {
+                  widget.obscureText = !widget.obscureText;
+                });
+              },
+              child: Icon(
+                widget.obscureText ? Icons.visibility_off : Icons.visibility,
+                color: Theme.of(context).brightness == Brightness.light ?Colors.black:Colors.white,
+              ),
             ),
           ),
+          labelText: widget.hint,
+          labelStyle: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: widget.iconColor,
+          ),
+          helperText: widget.helperText,
+          focusedBorder: OutlineInputBorder(
+            borderSide:  BorderSide(color: Theme.of(context).brightness == Brightness.light
+                ? Colors.black12
+                : Colors.black26),
+            // Set focused border color to white
+            borderRadius: BorderRadius.all(Radius.circular(17.sp)),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide:  BorderSide(color: Theme.of(context).brightness == Brightness.light
+                ? Colors.black12
+                : Colors.black26),
+            // Set enabled border color to white
+            borderRadius: BorderRadius.all(Radius.circular(17.sp)),
+          ),
         ),
-        labelText: widget.hint,
-        labelStyle: TextStyle(
-          fontWeight: FontWeight.bold,
-          color: widget.iconColor,
-        ),
-        helperText: widget.helperText,
-        focusedBorder:const UnderlineInputBorder(
-          borderSide: BorderSide(color: Colors.grey),
-        ),
-        enabledBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(color: Colors.grey),
-        ),
-      ),
 
+      ),
     );
   }
 }

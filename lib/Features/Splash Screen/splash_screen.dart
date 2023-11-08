@@ -22,10 +22,10 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
 
     Future.delayed(const Duration(milliseconds: 2000)).then((value) {
-      if (MyShared.isFirstOpen()) {
-        pushReplacement(context, const OnBoardingScreen());
-        return;
-      }
+      // if (MyShared.isFirstOpen()) {
+      //   pushReplacement(context, const OnBoardingScreen());
+      //   return;
+      // }
       if (MyShared.isLoggedIn()) {
         pushReplacement(context, const MainScreen());
       } else {

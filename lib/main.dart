@@ -13,6 +13,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   ServiceLocator().init();
+  await MyShared.init();
 
   runApp(ChangeNotifierProvider<ThemeProvider>(
       create: (_) =>
@@ -34,7 +35,7 @@ class MyApp extends StatelessWidget {
            return MaterialApp(
              key: ValueKey(MyShared.getCurrentLanguage()),
              debugShowCheckedModeBanner: false,
-             locale: Locale(MyShared.getCurrentLanguage()),
+               locale: Locale(MyShared.getCurrentLanguage()),
              supportedLocales: S.delegate.supportedLocales,
              localizationsDelegates:const [
                S.delegate,
@@ -46,7 +47,7 @@ class MyApp extends StatelessWidget {
              darkTheme: ThemeData.dark(),
              themeMode: value.themeMode,
              title: 'Shopping',
-             home:  const SignIn(),
+             home:  const SplashScreen(),
            );
 
          },

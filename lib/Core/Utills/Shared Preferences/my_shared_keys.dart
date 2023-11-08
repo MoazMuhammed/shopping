@@ -3,4 +3,5 @@ enum MySharedKeys {
   currentLanguage,
   languageKeys,
   theme,
+  token
 }

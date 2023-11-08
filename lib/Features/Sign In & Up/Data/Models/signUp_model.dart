@@ -5,24 +5,11 @@ class SignUpModel extends SignUp {
   SignUpModel(
       {required super.status, required super.message, required super.data});
 
-
-
   factory SignUpModel.fromJson(Map<String, dynamic> json) {
-    if (json == null) {
-      return SignUpModel(status: false, data: null, message: "Invalid JSON data");
-    }
-
-    if (json['status'] is bool && json['data'] is Map<String, dynamic> && json['message'] is String) {
-      return SignUpModel(
-        status: json['status'],
-        data: SignUpDataModel.fromJson(json['data']),
-        message: json['message'],
-      );
-
-    } else {
-      return SignUpModel(status: false, data: null, message: "Invalid JSON structure");
-    }
-
+    return SignUpModel(
+      status: json['status'] ?? false, // Provide a default value if 'status' is missing
+      message: json['message'] ?? "No message available", // Provide a default message
+      data: json['data'] != null ? SignUpDataModel.fromJson(json['data']) : null,
+    );
   }
-
 }
