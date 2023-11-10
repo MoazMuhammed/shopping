@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:shopping/Features/Home%20Screen/View/home_screen.dart';
+import 'package:shopping/Features/Home%20Screen/Presentation/View/home_screen.dart';
 part 'main_screen_state.dart';
 
 class MainScreenCubit extends Cubit<MainScreenState> {

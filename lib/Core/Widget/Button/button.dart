@@ -27,8 +27,8 @@ class AppButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     borderRadius ??= BorderRadius.circular(20.sp);
-    margin ??= EdgeInsets.symmetric(horizontal: 20.sp);
-    padding ??= EdgeInsets.symmetric(vertical: 10.sp);
+    margin ??= EdgeInsets.symmetric(horizontal: 0.sp);
+    padding ??= EdgeInsets.symmetric(vertical: 0.sp);
 
     return SizedBox(
       width: double.infinity,

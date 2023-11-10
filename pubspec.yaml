@@ -49,6 +49,9 @@ dependencies:
   dartz: ^0.10.1
   get_it: ^7.6.4
   animated_snack_bar: ^0.4.0
+  cached_network_image: ^3.3.0
+  carousel_slider: ^4.2.1
+  dots_indicator: ^3.0.0
 
 dev_dependencies:
   flutter_test:
