@@ -5,7 +5,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shopping/Core/Service/service_locator.dart';
 import 'package:shopping/Core/Styles/Theme/theme.dart';
 import 'package:shopping/Core/Utills/Shared%20Preferences/my_shared.dart';
-import 'package:shopping/Features/Sign%20In%20&%20Up/Presentation/View/signIn.dart';
+import 'package:shopping/Features/Main%20Screen/View/main_screen.dart';
 import 'package:shopping/Features/Splash%20Screen/splash_screen.dart';
 import 'package:shopping/generated/l10n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
              darkTheme: ThemeData.dark(),
              themeMode: value.themeMode,
              title: 'Shopping',
-             home:  const SplashScreen(),
+             home:  const MainScreen(),
            );
 
          },

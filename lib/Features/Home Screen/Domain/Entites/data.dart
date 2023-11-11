@@ -1,13 +1,12 @@
 import 'package:equatable/equatable.dart';
-import 'package:shopping/Features/Home%20Screen/Domain/Entites/banners.dart';
 
 import 'products_data.dart';
 
-class Data extends Equatable {
-  final List<ProductsData> productsData;
+class Data {
+  final List<ProductsData> products;
 
-  const Data(this.productsData);
+  const Data(this.products);
 
   @override
-  List<Object> get props => [productsData];
+  List<Object> get props => [products];
 }

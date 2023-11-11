@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:shopping/Core/Utills/Enum/enum.dart';
 import 'package:shopping/Core/useCase/base_usecase.dart';
 import 'package:shopping/Features/Home%20Screen/Domain/Entites/home.dart';
+import 'package:shopping/Features/Home%20Screen/Domain/Entites/products_data.dart';
 import 'package:shopping/Features/Home%20Screen/Domain/UseCase/get_home.dart';
 
 part 'products_event.dart';
@@ -14,7 +15,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
   ProductsBloc(this.getHomeUseCase) : super(const ProductsState()) {
     on<ProductsEvent>(getProductsEvent);
   }
-final GetHome getHomeUseCase;
+final GetHomeUseCase getHomeUseCase;
 
 
 
@@ -25,7 +26,7 @@ final GetHome getHomeUseCase;
             homeState:RequestState.error,
             homeMessage: l.message)),
             (r) => emit(state.copyWith(
-            home: r, homeState: RequestState.isLoaded)));
+            products: r, homeState: RequestState.isLoaded)));
 
   }
 }

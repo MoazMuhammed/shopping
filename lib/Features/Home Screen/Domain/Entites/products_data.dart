@@ -1,30 +1,30 @@
 import 'package:equatable/equatable.dart';
 
 class ProductsData extends Equatable {
-  final int id;
-  final int price;
-  final int old_price;
-  final int discount;
-  final String image;
-  final String name;
-  final String describtion;
-  final bool in_favorites;
-  final bool in_cart;
+  int id;
+  num price;
+  num oldPrice;
+  num discount;
+  String image;
+  String name;
+  String description;
+  List<String> images;
+  bool inFavorites;
+  bool inCart;
 
-  ProductsData(this.id, this.price, this.old_price, this.discount, this.image,
-      this.name, this.describtion, this.in_favorites, this.in_cart);
+
+  ProductsData({required this.id,
+    required this.price,
+    required this.oldPrice,
+    required this.discount,
+    required this.image,
+    required this.name,
+    required this.description,
+    required this.images,
+    required this.inFavorites,
+    required this.inCart});
+
 
   @override
-  List<Object> get props =>
-      [
-        id,
-        price,
-        old_price,
-        discount,
-        image,
-        name,
-        describtion,
-        in_favorites,
-        in_cart,
-      ];
+  List<Object> get props => [];
 }

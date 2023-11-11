@@ -30,7 +30,7 @@ class ServiceLocator{
 
 
     sl.registerFactory(() => ProductsBloc(sl()));
-    sl.registerLazySingleton(() => GetHome(sl()));
+    sl.registerLazySingleton(() => GetHomeUseCase(sl()));
     sl.registerLazySingleton<BaseHomeRepository>(() => ProductsRepository(sl()));
     sl.registerLazySingleton<BaseProductsRemoteDataSource>(() => ProductsRemoteDataSource());
 

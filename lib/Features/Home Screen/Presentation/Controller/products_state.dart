@@ -2,30 +2,30 @@ part of 'products_bloc.dart';
 
 class ProductsState extends Equatable {
   const ProductsState({
-    this.home,
+    this.products = const [],
     this.homeState = RequestState.isLoading,
     this.homeMessage = '',
   });
 
-  final Home? home;
+  final List<ProductsData> products;
   final RequestState homeState;
   final String homeMessage;
 
   ProductsState copyWith({
-    Home? home,
+    List<ProductsData>? products,
     RequestState? homeState,
     String? homeMessage,
 
   }) {
     return ProductsState(
-      home: home ?? this.home,
+      products: products ?? this.products,
       homeMessage: homeMessage ?? this.homeMessage,
       homeState: homeState ?? this.homeState,
     );
   }
 
   @override
-  List<Object?> get props => [home, homeState, homeMessage];
+  List<Object?> get props => [products, homeState, homeMessage];
 
 
 }

@@ -3,10 +3,16 @@ import 'package:shopping/Features/Home%20Screen/Data/Models/products_data_model.
 class DataProductsModel {
   final List<ProductsDataModel> products;
 
-  DataProductsModel(this.products);
+  DataProductsModel({required this.products});
 
   factory DataProductsModel.fromJson(Map<String, dynamic> json) {
-    return DataProductsModel(List<ProductsDataModel>.from(json['products']
-        .map((product) => ProductsDataModel.fromJson(product))));
+    List<ProductsDataModel> productList = [];
+    if (json['products'] != null) {
+      json['products'].forEach((productJson) {
+        productList.add(ProductsDataModel.fromJson(productJson));
+      });
+    }
+
+    return DataProductsModel(products: productList);
   }
 }

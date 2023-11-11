@@ -4,7 +4,6 @@ import 'package:shopping/Core/Utills/Navigators/navigators.dart';
 import 'package:shopping/Core/Utills/SVG/svg.dart';
 import 'package:shopping/Core/Utills/Shared%20Preferences/my_shared.dart';
 import 'package:shopping/Features/Main%20Screen/View/main_screen.dart';
-import 'package:shopping/Features/On%20Boarding%20Screen/View/onBoardingScreen.dart';
 import 'package:shopping/Features/Sign%20In%20&%20Up/Presentation/View/signIn.dart';
 
 class SplashScreen extends StatefulWidget {
