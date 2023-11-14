@@ -38,7 +38,7 @@ class AppImage extends StatelessWidget {
         imageUrl: imageUrl,
         progressIndicatorBuilder: (context, url, downloadProgress) {
           return Image.asset(
-            "images/loading.gif",
+            "assets/Images/rolling.gif",
             fit: BoxFit.fill,
           );
         },

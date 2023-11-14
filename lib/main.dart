@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:shopping/Core/Network/API/my_dio.dart';
 import 'package:shopping/Core/Service/service_locator.dart';
 import 'package:shopping/Core/Styles/Theme/theme.dart';
 import 'package:shopping/Core/Utills/Shared%20Preferences/my_shared.dart';
@@ -13,6 +14,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   ServiceLocator().init();
+  await MyDio.init();
   await MyShared.init();
 
   runApp(ChangeNotifierProvider<ThemeProvider>(
@@ -47,7 +49,7 @@ class MyApp extends StatelessWidget {
              darkTheme: ThemeData.dark(),
              themeMode: value.themeMode,
              title: 'Shopping',
-             home:  const MainScreen(),
+             home:  const SplashScreen(),
            );
 
          },

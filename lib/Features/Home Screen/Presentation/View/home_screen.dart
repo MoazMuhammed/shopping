@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:shopping/Core/Service/service_locator.dart';
 import 'package:shopping/Core/Styles/Colors/colors.dart';
 import 'package:shopping/Core/Utills/Enum/enum.dart';
+import 'package:shopping/Core/Utills/Navigators/navigators.dart';
 import 'package:shopping/Core/Utills/SVG/svg.dart';
 import 'package:shopping/Core/Widget/Image/app_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
+import 'package:shopping/Features/Home%20Screen/Presentation/Controller/Category/category_bloc.dart';
 import 'package:shopping/Features/Home%20Screen/Presentation/Controller/products_bloc.dart';
+import 'package:shopping/Features/Home%20Screen/Presentation/View/Product%20Category/product_category.dart';
+import 'package:shopping/Features/Product%20Details/Presentation/View/products_details.dart';
 import 'package:shopping/Features/Home%20Screen/Presentation/Widget/App%20Bar/container_widget.dart';
 import 'package:shopping/Features/Home%20Screen/Presentation/Widget/Categories/categories_widget.dart';
 import 'package:shopping/Features/Home%20Screen/Presentation/Widget/products_widget.dart';
@@ -23,13 +28,22 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int currentIndex = 0;
   CarouselController carouselController = CarouselController();
-  final productsBloc = ProductsBloc(sl());
+  final productsBloc = ProductsBloc(sl(), sl());
+  final categoryBloc = CategoryBloc(sl(),sl());
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => productsBloc..add(GetProductsEvent()),
-
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => productsBloc
+            ..add(GetProductsEvent())
+            ..add(GetBannersEvent()),
+        ),
+        BlocProvider(
+          create: (context) => categoryBloc..add(GetCategoryEvent()),
+        ),
+      ],
       child: BlocBuilder<ProductsBloc, ProductsState>(
         builder: (context, state) {
           return LayoutBuilder(
@@ -46,15 +60,12 @@ class _HomeScreenState extends State<HomeScreen> {
                             horizontal: 16.sp, vertical: 16.sp),
                         child: Row(
                           children: [
-                            GestureDetector(
-                              child: Text(
-                                "Shoppy",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20.sp,
-                                    color: AppColors.primaryLight),
-                              ),
-                              onTap: () => print(state.products),
+                            Text(
+                              "Shoppy",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20.sp,
+                                  color: AppColors.primaryLight),
                             ),
                             const Spacer(),
                             const AppBarContainerWidget(
@@ -87,26 +98,57 @@ class _HomeScreenState extends State<HomeScreen> {
                           height: 12.h,
                           child: Row(
                             children: [
-                              const CategoriesWidget(
+                               CategoriesWidget(
                                   imageCategory:
                                       'https://cdn.shoplightspeed.com/shops/601917/files/48868874/380x275x1/view-all-products.jpg',
-                                  nameCategory: 'All Categories'),
+                                  nameCategory: 'All Categories', onPressCategory: () {  },),
                               SizedBox(
                                 width: 4.w,
                               ),
-                              Expanded(
-                                child: ListView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  itemBuilder: (context, index) => Padding(
-                                    padding:
-                                        EdgeInsetsDirectional.only(end: 13.sp),
-                                    child: CategoriesWidget(
-                                        imageCategory:
-                                            'https://cdn.shopify.com/s/files/1/0070/7032/files/trending-products_c8d0d15c-9afc-47e3-9ba2-f7bad0505b9b.png?format=jpg&quality=90&v=1614559651',
-                                        nameCategory: 'name Category',
-                                        widthNameCategory: 18.w),
-                                  ),
-                                ),
+                              BlocBuilder<CategoryBloc, CategoryState>(
+                                builder: (context, state) {
+                                  return Expanded(
+                                    child: ListView.builder(itemCount: state.categories.length,
+                                      scrollDirection: Axis.horizontal,
+                                      itemBuilder: (context, index) {
+                                        if (state.categoriesState ==
+                                            RequestState.isLoaded) {
+                                          return Padding(
+                                            padding: EdgeInsetsDirectional.only(
+                                                end: 13.sp),
+                                            child: CategoriesWidget(
+                                                imageCategory: state
+                                                    .categories[index]
+                                                    .categoryImage,
+                                                nameCategory: state
+                                                    .categories[index]
+                                                    .categoryName,
+                                                widthNameCategory: 18.w, onPressCategory: () {
+                                                   push(context, ProductCategoryScreen(id: state.categories[index].id,));
+
+                                            },),
+                                          );
+                                        } else {
+                                          return SizedBox(
+                                            width: 200.0,
+                                            height: 100.0,
+                                            child: Shimmer.fromColors(
+                                                baseColor: Colors.grey.shade300,
+                                                highlightColor: Colors.grey.shade100,
+                                                child:  Padding(
+                                                  padding: EdgeInsetsDirectional.only(
+                                                      end: 13.sp),
+                                                  child: CategoriesWidget(
+                                                      imageCategory: '',
+                                                      nameCategory: '',
+                                                      widthNameCategory: 18.w, onPressCategory: () {  },),
+                                                )),
+                                          );
+                                        }
+                                      },
+                                    ),
+                                  );
+                                },
                               ),
                             ],
                           ),
@@ -157,26 +199,37 @@ class _HomeScreenState extends State<HomeScreen> {
                             shrinkWrap: false,
                             padding: EdgeInsets.symmetric(
                                 vertical: 10.sp, horizontal: 12.sp),
-                            itemCount: 2,
+                            itemCount: 4,
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
                                     childAspectRatio: 3.0.sp,
                                     crossAxisCount: 2),
                             itemBuilder: (context, index) {
-                              if(state.homeState == RequestState.isLoaded ){
+                              if (state.homeState == RequestState.isLoaded) {
                                 final product = state.products[index];
-                               return ProductsWidget(
+                                return ProductsWidget(
                                     discount: product.discount.toString(),
-                                    imageName:
-                                    product.image,
-                                    itemName:
-                                    product.name,
-                                    categoryName:
-                                    product.name,
-                                    price: product.name
-                                        .toString());
-                              }else{
-                                return SizedBox.shrink();
+                                    imageName: product.image,
+                                    itemName: product.name,
+                                    categoryName: product.description,
+                                    price: product.price.toString(), onPressProductDetails: () {
+                                      push(context, ProductsDetailsScreen(id: product.id));
+
+                                },);
+                              } else {
+                                return SizedBox(
+                                  width: 200.0,
+                                  height: 100.0,
+                                  child: Shimmer.fromColors(
+                                      baseColor: Colors.grey.shade300,
+                                      highlightColor: Colors.grey.shade100,
+                                      child:  ProductsWidget(
+                                          discount: '',
+                                          imageName: '',
+                                          itemName: '',
+                                          categoryName: '',
+                                          price: '', onPressProductDetails: () {  },)),
+                                );
                               }
                             }),
                       ),
@@ -361,20 +414,20 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                       ),
+                      state.banners.isEmpty ? const SizedBox():
                       Padding(
                         padding: EdgeInsets.symmetric(vertical: 3.h),
                         child: Column(
                           children: [
                             CarouselSlider.builder(
-                              itemCount: 3,
+                              itemCount: state.banners.length,
                               itemBuilder: (context, index, realIndex) =>
                                   SizedBox(
                                 width: 75.w,
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(20),
                                   child: AppImage(
-                                      imageUrl:
-                                          'https://cdn.shopify.com/s/files/1/0070/7032/files/trending-products_c8d0d15c-9afc-47e3-9ba2-f7bad0505b9b.png?format=jpg&quality=90&v=1614559651',
+                                      imageUrl: '${state.banners[index].image}',
                                       width: 16.h,
                                       height: 16.h),
                                 ),
@@ -385,7 +438,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 pageSnapping: true,
                                 padEnds: true,
                                 aspectRatio: 16 / 9,
-                                viewportFraction: 0.8,
+                                viewportFraction: 0.7,
                                 initialPage: 0,
                                 enableInfiniteScroll: true,
                                 reverse: false,
@@ -409,7 +462,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               decorator: const DotsDecorator(
                                   activeColor: AppColors.primary,
                                   color: AppColors.secondaryLight),
-                              dotsCount: 3,
+                              dotsCount: state.banners.length,
                               position: currentIndex,
                             )
                           ],

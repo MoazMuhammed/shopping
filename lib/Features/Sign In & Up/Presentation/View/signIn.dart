@@ -38,6 +38,12 @@ final bloc = LoginBloc(sl());
                 content: Text(state.login!.message.toString()),
               ),
             );
+            final token = state.login?.data?.token;
+            if (token != null) {
+              MyShared.putString(
+                  key: MySharedKeys.apiToken, value: token);
+            }
+            print(MySharedKeys.apiToken);
             pushReplacement(context, const MainScreen());
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -106,11 +112,6 @@ final bloc = LoginBloc(sl());
                                   bloc.add(SendLoginEvent(
                                       usernameController.text,
                                       passwordController.text));
-                                  final token = state.login?.data?.token;
-                                  if (token != null) {
-                                    MyShared.putString(
-                                        key: MySharedKeys.token, value: token);
-                                  }
                                 },
                                 label: "Login",
                                 borderRadius: BorderRadius.circular(14.sp),

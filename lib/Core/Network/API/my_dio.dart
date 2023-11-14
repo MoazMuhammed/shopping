@@ -16,13 +16,14 @@ class MyDio {
     );
 
     dio = Dio(baseOptions);
+
   }
 
   static Future<Response?> get({required String endPoint}) async {
     dio.options.headers = {
       "lang": MyShared.getCurrentLanguage(),
       // "Accept": "application/json",
-      "Authorization": "Token ${MyShared.getString(key: MySharedKeys.apiToken)}",
+      "Authorization": MyShared.getString(key: MySharedKeys.apiToken),
     };
     return await dio.get(endPoint);
   }
@@ -31,7 +32,7 @@ class MyDio {
     dio.options.headers = {
       "lang": MyShared.getCurrentLanguage(),
       // "Accept": "application/json",
-      "Authorization": "Token ${MyShared.getString(key: MySharedKeys.apiToken)}",
+      "Authorization": MyShared.getString(key: MySharedKeys.apiToken),
     };
     return await dio.post(endPoint, data: data);
   }
@@ -48,7 +49,7 @@ class MyDio {
     dio.options.headers = {
       "lang": MyShared.getCurrentLanguage(),
       // "Accept": "application/json",
-      "Authorization": "Token ${MyShared.getString(key: MySharedKeys.apiToken)}",
+      "Authorization": MyShared.getString(key: MySharedKeys.apiToken),
     };
     return await dio.delete(endPoint);
   }
